@@ -1,0 +1,212 @@
+name: Build rootfs
+on:
+  push:
+    paths:
+      - 'envs.sh'
+      - 'stage1-systemd-23.spec'
+      - 'stage3d-systemd-23.spec'
+      - 'stage4-llvm.spec'
+      - 'stage4-fex.spec'
+      - 'build.sh'
+      - 'assemble.sh'
+      - 'config/**'
+jobs:
+  build-stage-1:
+    name: Build Stage 1
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: "ghcr.io/whatamisupposedtoputhere/fex-rootfs-catalyst:latest"
+      options: --user root --privileged
+    steps:
+      - name: Checkout
+        uses: "actions/checkout@v4"
+      - name: Cache pkgs
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/packages/23.0-default/stage1-amd64"
+          key: "stage1-pkgs-${{ hashFiles('envs.sh', 'stage1-systemd-23.spec', 'config/**') }}"
+          restore-keys: "stage1-pkgs"
+      - name: "Get envs"
+        run: |
+          echo "TIMESTAMP_L=$(source envs.sh; echo $TIMESTAMP_L)" >> $GITHUB_ENV
+          echo "TIMESTAMP_S=$(source envs.sh; echo $TIMESTAMP_S)" >> $GITHUB_ENV
+      - name: Cache seed
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/stage3-amd64-systemd-${{env.TIMESTAMP_L}}.tar.xz"
+          key: "seed-${{ env.TIMESTAMP_L }}"
+      - name: Cache snapshot
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/gentoo-${{env.TIMESTAMP_S}}.xz.sqfs"
+          key: "snapshot-${{ env.TIMESTAMP_S }}"
+      - name: Build
+        run: "bash build.sh stage1-systemd-23.spec"
+        env:
+          GIT_SHA: ${{ github.sha }}
+          DOWNLOAD_SEED: 1
+      - name: Upload
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: stage1-tarball
+          path: "/var/tmp/catalyst/builds/23.0-default/stage1-amd64-systemd.tar.xz"
+  build-stage-3:
+    name: Build Stage 3
+    needs: build-stage-1
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: "ghcr.io/whatamisupposedtoputhere/fex-rootfs-catalyst:latest"
+      options: --user root --privileged
+    steps:
+      - name: Checkout
+        uses: "actions/checkout@v4"
+      - name: Download Stage 1
+        uses: actions/download-artifact@v4
+        with:
+          name: stage1-tarball
+          path: "/var/tmp/catalyst/builds/23.0-default/"
+      - name: Cache pkgs
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/packages/23.0-default/stage3-amd64"
+          key: "stage3-pkgs-${{ hashFiles('envs.sh', 'stage3d-systemd-23.spec', 'config/**') }}"
+          restore-keys: "stage3-pkgs"
+      - name: "Get envs"
+        run: |
+          echo "TIMESTAMP_S=$(source envs.sh; echo $TIMESTAMP_S)" >> $GITHUB_ENV
+      - name: Cache snapshot
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/gentoo-${{env.TIMESTAMP_S}}.xz.sqfs"
+          key: "snapshot-${{ env.TIMESTAMP_S }}"
+      - name: Build
+        run: "bash build.sh stage3d-systemd-23.spec"
+        env:
+          GIT_SHA: ${{ github.sha }}
+      - name: Upload
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: stage3-tarball
+          path: "/var/tmp/catalyst/builds/23.0-default/stage3-amd64-systemd.tar.xz"
+  build-stage-4-clang:
+    name: Build Stage 4 Clang
+    needs: build-stage-3
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: "ghcr.io/whatamisupposedtoputhere/fex-rootfs-catalyst:latest"
+      options: --user root --privileged --memory=10g
+    steps:
+      - name: Checkout
+        uses: "actions/checkout@v4"
+      - name: Download Stage 3
+        uses: actions/download-artifact@v4
+        with:
+          name: stage3-tarball
+          path: "/var/tmp/catalyst/builds/23.0-default/"
+      - name: Cache pkgs
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/packages/23.0-default/stage4-amd64"
+          key: "stage4-pkgs-${{ hashFiles('envs.sh', 'stage4-llvm.spec', 'config/**') }}"
+          restore-keys: |
+            stage4-pkgs-f
+            stage4-pkgs
+      - name: "Get envs"
+        run: |
+          echo "TIMESTAMP_S=$(source envs.sh; echo $TIMESTAMP_S)" >> $GITHUB_ENV
+      - name: Cache snapshot
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/gentoo-${{env.TIMESTAMP_S}}.xz.sqfs"
+          key: "snapshot-${{ env.TIMESTAMP_S }}"
+      - name: Build
+        run: "bash build.sh stage4-llvm.spec"
+        env:
+          GIT_SHA: ${{ github.sha }}
+      - name: Upload
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: stage4-clang-tarball
+          path: "/var/tmp/catalyst/builds/23.0-default/stage4-amd64-clang.tar.xz"
+  build-stage-4:
+    name: Build Stage 4
+    needs: build-stage-4-clang
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: "ghcr.io/whatamisupposedtoputhere/fex-rootfs-catalyst:latest"
+      options: --user root --privileged
+    steps:
+      - name: Checkout
+        uses: "actions/checkout@v4"
+      - name: Download Stage 4 Clang
+        uses: actions/download-artifact@v4
+        with:
+          name: stage4-clang-tarball
+          path: "/var/tmp/catalyst/builds/23.0-default/"
+      - name: Cache snapshot
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/packages/23.0-default/stage4-amd64"
+          key: "stage4-pkgs-f-${{ hashFiles('envs.sh', 'stage4-fex.spec', 'config/**') }}"
+          restore-keys: |
+            stage4-pkgs-f
+            stage4-pkgs
+      - name: "Get envs"
+        run: |
+          echo "TIMESTAMP_S=$(source envs.sh; echo $TIMESTAMP_S)" >> $GITHUB_ENV
+      - name: Cache snapshot
+        uses: "actions/cache@v4"
+        with:
+          path: "/var/tmp/catalyst/gentoo-${{env.TIMESTAMP_S}}.xz.sqfs"
+          key: "snapshot-${{ env.TIMESTAMP_S }}"
+      - name: Build
+        run: "bash build.sh stage4-fex.spec"
+        env:
+          GIT_SHA: ${{ github.sha }}
+      - name: Upload
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: stage4-tarball
+          path: "/var/tmp/catalyst/builds/23.0-default/stage4-amd64-desktop-systemd.tar.xz"
+  assemble-squashfs:
+    name: Assemble squashfs image
+    needs: build-stage-4
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: "ghcr.io/whatamisupposedtoputhere/fex-rootfs-catalyst:latest"
+      options: --user root --privileged
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: "actions/checkout@v4"
+      - name: Download Stage 4
+        uses: actions/download-artifact@v4
+        with:
+          name: stage4-tarball
+      - name: Squash
+        run: "bash assemble.sh"
+      - name: "Get release"
+        run: echo "RELEASE=$(source envs.sh; echo $RELEASE)" >> $GITHUB_ENV
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE }}
+          files: |
+            fex-rootfs.sqfs
+            fex-chroot.sqfs

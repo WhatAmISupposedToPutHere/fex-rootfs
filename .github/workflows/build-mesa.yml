@@ -1,0 +1,31 @@
+name: Build mesa
+on:
+  push:
+    paths:
+      - 'build_mesa.sh'
+      - 'build_mesa_chr.sh'
+      - 'config/**'
+jobs:
+  build-mesa:
+    name: Build Mesa
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: "ghcr.io/whatamisupposedtoputhere/fex-rootfs-catalyst:latest"
+      options: --user root --privileged
+    steps:
+      - name: Checkout
+        uses: "actions/checkout@v4"
+      - name: Build
+        run: "bash build_mesa.sh"
+      - name: "Get release"
+        run: echo "RELEASE=$(source envs.sh; echo $RELEASE)" >> $GITHUB_ENV
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: mesa-${{ env.RELEASE }}
+          files: fex-mesa.sqfs

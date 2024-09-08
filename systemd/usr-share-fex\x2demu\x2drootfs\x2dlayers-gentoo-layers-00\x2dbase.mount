@@ -1,0 +1,6 @@
+[Unit]
+Description=Fex rootfs base layer
+
+[Mount]
+What=/usr/share/fex-emu-rootfs-layers/gentoo/images/00-base.sqfs
+Where=/usr/share/fex-emu-rootfs-layers/gentoo/layers/00-base/

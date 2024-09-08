@@ -1,0 +1,29 @@
+#!/bin/bash
+set -euo pipefail
+
+deps=( /usr/share/fex-emu-rootfs-layers/gentoo/images/* )
+deps=( "${deps[@]/images/layers}" )
+units="$(systemd-escape "${deps[@]%.*}" --path --suffix mount)"
+
+layers=( $(printf '%s\n' /usr/share/fex-emu-rootfs-layers/gentoo/layers/* | sort -r) )
+layers="$(IFS=: ; echo "${layers[*]}")"
+
+file="usr-share-fex\\x2demu-RootFS-Gentoo.mount"
+cat >"$1/${file}" <<EOF
+[Unit]
+Description=Fex rootfs
+BindsTo=${units}
+After=${units}
+
+[Mount]
+What=overlay
+Where=/usr/share/fex-emu/RootFS/Gentoo/
+Type=overlay
+Options=lowerdir=${layers},workdir=/usr/share/fex-emu-rootfs-layers/gentoo/work
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+mkdir -p "$1/multi-user.target.wants/"
+ln -s "../${file}" "$1/multi-user.target.wants/${file}"

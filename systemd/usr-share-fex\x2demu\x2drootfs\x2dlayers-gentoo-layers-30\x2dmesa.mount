@@ -1,0 +1,6 @@
+[Unit]
+Description=Fex rootfs mesa layer
+
+[Mount]
+What=/usr/share/fex-emu-rootfs-layers/gentoo/images/30-mesa.sqfs
+Where=/usr/share/fex-emu-rootfs-layers/gentoo/layers/30-mesa/
