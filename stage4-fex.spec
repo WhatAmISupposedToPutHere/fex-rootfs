@@ -36,3 +36,4 @@ stage4/packages: --with-bdeps=y sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+:2 x11-
 	x11-terms/xterm
 	dev-util/bindgen
 	dev-python/pyyaml
+	dev-libs/nss
