@@ -1,4 +1,4 @@
-ARG DATE=20240913
+ARG DATE=20241111
 FROM docker.io/gentoo/stage3:${DATE}
 RUN emerge-webrsync --revert=${DATE} && \
     export USE="-iso python" && \
