@@ -14,7 +14,7 @@ cp build_mesa_chr.sh result/
 cd result
 echo 'VIDEO_CARDS="asahi honeykrisp"' >>etc/portage/make.conf
 echo 'media-libs/mesa arm64 ~arm64' >etc/portage/package.accept_keywords/mesa
-echo 'sys-kernel/asahi-sources-6.10.9_p3' >etc/portage/profile/package.provided/kernel
+echo 'sys-kernel/asahi-sources-6.11.4_p1' >etc/portage/profile/package.provided/kernel
 for dir in dev sys proc; do
     mount --rbind /$dir $dir
     mount --make-rslave $dir
