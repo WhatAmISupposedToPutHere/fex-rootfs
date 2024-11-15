@@ -11,14 +11,15 @@ portage_prefix: stage4
 binrepo_path: amd64/binpackages/23.0/x86-64
 stage4/fsscript: fsscript.sh
 stage4/packages: --with-bdeps=y sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+:2 x11-libs/gtk+:3
-	app-admin/sudo
 	app-emulation/wine-vanilla
 	dev-libs/nspr
+	dev-libs/nss
 	dev-libs/protobuf
 	dev-libs/protobuf-c
+	dev-python/pyyaml
+	dev-util/bindgen
 	dev-util/clinfo
 	dev-util/vulkan-tools
-	gnome-extra/zenity
 	media-libs/glew
 	media-libs/glu
 	media-libs/libpulse
@@ -26,14 +27,15 @@ stage4/packages: --with-bdeps=y sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+:2 x11-
 	media-libs/libsdl2
 	media-libs/mesa
 	media-libs/openal
+	media-libs/sdl2-gfx
+	media-libs/sdl2-image
+	media-libs/sdl2-mixer
+	media-libs/sdl2-net
 	media-libs/speex
 	sys-apps/pciutils
 	sys-apps/usbutils
-	sys-apps/xdg-desktop-portal-gtk
 	sys-auth/libnss-nis
 	x11-apps/mesa-progs
+	x11-libs/xcb-util-cursor
 	x11-libs/xcb-util-xrm
 	x11-terms/xterm
-	dev-util/bindgen
-	dev-python/pyyaml
-	dev-libs/nss
