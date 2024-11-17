@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 release=20241114
-wget "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-rootfs.sqfs"
-wget "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-chroot.sqfs"
+wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-rootfs.sqfs"
+wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-chroot.sqfs"
 mkdir rootfs chroot layer1 layer2 work result
 mount fex-chroot.sqfs chroot
 mount fex-rootfs.sqfs rootfs

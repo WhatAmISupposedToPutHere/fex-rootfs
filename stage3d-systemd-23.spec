@@ -5,7 +5,7 @@ rel_type: 23.0-default
 profile: default/linux/amd64/23.0/systemd
 snapshot_treeish: @TREEISH@.xz
 source_subpath: 23.0-default/stage1-amd64-systemd
-compression_mode: pixz
+compression_mode: tar
 portage_confdir: /var/tmp/catalyst/config/stages
 portage_prefix: stage13
 binrepo_path: amd64/binpackages/23.0/x86-64
