@@ -52,7 +52,7 @@ jobs:
         uses: "actions/upload-artifact@v4"
         with:
           name: stage1-tarball
-          path: "/var/tmp/catalyst/builds/23.0-default/stage1-amd64-systemd.tar.xz"
+          path: "/var/tmp/catalyst/builds/23.0-default/stage1-amd64-systemd.tar"
   build-stage-3:
     name: Build Stage 3
     needs: build-stage-1
@@ -93,7 +93,7 @@ jobs:
         uses: "actions/upload-artifact@v4"
         with:
           name: stage3-tarball
-          path: "/var/tmp/catalyst/builds/23.0-default/stage3-amd64-systemd.tar.xz"
+          path: "/var/tmp/catalyst/builds/23.0-default/stage3-amd64-systemd.tar"
   build-stage-4-clang:
     name: Build Stage 4 Clang
     needs: build-stage-3
@@ -136,7 +136,7 @@ jobs:
         uses: "actions/upload-artifact@v4"
         with:
           name: stage4-clang-tarball
-          path: "/var/tmp/catalyst/builds/23.0-default/stage4-amd64-clang.tar.xz"
+          path: "/var/tmp/catalyst/builds/23.0-default/stage4-amd64-clang.tar"
   build-stage-4:
     name: Build Stage 4
     needs: build-stage-4-clang
@@ -179,7 +179,7 @@ jobs:
         uses: "actions/upload-artifact@v4"
         with:
           name: stage4-tarball
-          path: "/var/tmp/catalyst/builds/23.0-default/stage4-amd64-desktop-systemd.tar.xz"
+          path: "/var/tmp/catalyst/builds/23.0-default/stage4-amd64-desktop-systemd.tar"
   assemble-squashfs:
     name: Assemble squashfs image
     needs: build-stage-4
