@@ -7,6 +7,6 @@ snapshot_treeish: @TREEISH@.xz
 source_subpath: 23.0-default/stage3-amd64-systemd
 compression_mode: tar
 portage_confdir: /var/tmp/catalyst/config/stages
-portage_prefix: stage4
+portage_prefix: stage4l
 binrepo_path: amd64/binpackages/23.0/x86-64
-stage4/packages: --with-bdeps=y sys-devel/clang
+stage4/packages: --with-bdeps=y sys-devel/clang freetype harfbuzz

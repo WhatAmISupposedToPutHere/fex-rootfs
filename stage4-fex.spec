@@ -7,18 +7,18 @@ snapshot_treeish: @TREEISH@.xz
 source_subpath: 23.0-default/stage4-amd64-clang
 compression_mode: tar
 portage_confdir: /var/tmp/catalyst/config/stages
-portage_prefix: stage4
+repos: /var/tmp/catalyst/overlay
+portage_prefix: stage4f
 binrepo_path: amd64/binpackages/23.0/x86-64
 stage4/fsscript: fsscript.sh
 stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+:2 x11-libs/gtk+:3
 	app-emulation/wine-vanilla
 	dev-libs/nspr
 	dev-libs/nss
+	dev-libs/opencl-icd-loader
 	dev-libs/protobuf
 	dev-libs/protobuf-c
 	dev-python/pyyaml
-	dev-util/bindgen
-	dev-util/clinfo
 	dev-util/vulkan-tools
 	media-libs/glew
 	media-libs/glu
@@ -31,9 +31,9 @@ stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+
 	media-libs/sdl2-image
 	media-libs/sdl2-mixer
 	media-libs/sdl2-net
+	media-libs/sdl2-ttf
 	media-libs/speex
 	sys-apps/pciutils
-	sys-apps/usbutils
 	sys-auth/libnss-nis
 	x11-apps/mesa-progs
 	x11-libs/xcb-util-cursor
