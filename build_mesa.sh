@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-release=20241114
+release=20241122
 wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-rootfs.sqfs"
 wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-chroot.sqfs"
 mkdir rootfs chroot layer1 layer2 work result
@@ -8,7 +8,7 @@ mount fex-chroot.sqfs chroot
 mount fex-rootfs.sqfs rootfs
 mount -t overlay overlay -olowerdir=chroot:rootfs,upperdir=layer1,workdir=work result
 for dir in package.accept_keywords package.mask package.use profile/package.use.force; do
-    cp config/stages/$dir/stage4/* result/etc/portage/$dir/
+    cp config/stages/$dir/stage4f/* result/etc/portage/$dir/
 done
 cp build_mesa_chr.sh result/
 cd result
@@ -20,7 +20,7 @@ for dir in dev sys proc; do
     mount --rbind /$dir $dir
     mount --make-rslave $dir
 done
-chroot . /bin/bash /build_mesa_chr.sh 20241114
+chroot . /bin/bash /build_mesa_chr.sh $release
 cd ../
 umount -R result
 mount -t overlay overlay -olowerdir=layer1:chroot:rootfs,upperdir=layer2,workdir=work result
