@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: "bash build_mesa.sh"
       - name: "Get release"
-        run: echo "RELEASE=$(source envs.sh; echo $RELEASE)" >> $GITHUB_ENV
+        run: echo "RELEASE=$(source envs_mesa.sh; echo $RELEASE)" >> $GITHUB_ENV
       - name: Release
         uses: softprops/action-gh-release@v2
         with:

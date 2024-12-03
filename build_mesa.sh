@@ -1,8 +1,9 @@
 #!/bin/bash
 set -euo pipefail
-release=20241122
-wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-rootfs.sqfs"
-wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${release}/fex-chroot.sqfs"
+base_layer=20241122
+repo_ver=20241202
+wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${base_layer}/fex-rootfs.sqfs"
+wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${base_layer}/fex-chroot.sqfs"
 mkdir rootfs chroot layer1 layer2 work result
 mount fex-chroot.sqfs chroot
 mount fex-rootfs.sqfs rootfs
@@ -20,7 +21,7 @@ for dir in dev sys proc; do
     mount --rbind /$dir $dir
     mount --make-rslave $dir
 done
-chroot . /bin/bash /build_mesa_chr.sh $release
+chroot . /bin/bash /build_mesa_chr.sh $repo_ver
 cd ../
 umount -R result
 mount -t overlay overlay -olowerdir=layer1:chroot:rootfs,upperdir=layer2,workdir=work result
