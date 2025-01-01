@@ -9,4 +9,4 @@ compression_mode: tar
 portage_confdir: /var/tmp/catalyst/config/stages
 portage_prefix: stage4l
 binrepo_path: amd64/binpackages/23.0/x86-64
-stage4/packages: --with-bdeps=y sys-devel/clang freetype harfbuzz
+stage4/packages: --with-bdeps=y llvm-core/clang freetype harfbuzz

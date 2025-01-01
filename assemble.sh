@@ -11,6 +11,8 @@ find etc/ -mindepth 1 -maxdepth 1 \
 mv boot home media mnt opt root run tmp var ../chroot/
 mv usr/{include,libexec,local,sbin,src,x86_64-pc-linux-gnu} ../chroot/usr/
 mv usr/lib/mingw64-toolchain ../chroot/usr/lib/
+mkdir -p ../chroot/usr/lib/locale
+mv usr/lib/locale/locale-archive ../chroot/usr/lib/locale/
 find usr/bin -mindepth 1 -maxdepth 1 \
      \! -name 'wine*' -a \
      \! -name 'mango*' -a \
