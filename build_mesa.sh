@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
-base_layer=20241122
-repo_ver=20241204
+base_layer=20241231
+repo_ver=20241231
 wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${base_layer}/fex-rootfs.sqfs"
 wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${base_layer}/fex-chroot.sqfs"
 mkdir rootfs chroot layer1 layer2 work result
