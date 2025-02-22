@@ -7,10 +7,8 @@ snapshot_treeish: @TREEISH@.xz
 source_subpath: 23.0-default/stage4-amd64-clang
 compression_mode: tar
 portage_confdir: /var/tmp/catalyst/config/stages
-repos: /var/tmp/catalyst/overlay
 portage_prefix: stage4f
 binrepo_path: amd64/binpackages/23.0/x86-64
-stage4/fsscript: fsscript.sh
 stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+:2 x11-libs/gtk+:3
 	app-emulation/wine-vanilla
 	dev-libs/nspr
@@ -29,7 +27,6 @@ stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+
 	media-libs/openal
 	media-libs/sdl2-gfx
 	media-libs/sdl2-image
-	media-libs/sdl2-mixer
 	media-libs/sdl2-net
 	media-libs/sdl2-ttf
 	media-libs/speex
