@@ -27,6 +27,7 @@ stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+
 	media-libs/openal
 	media-libs/sdl2-gfx
 	media-libs/sdl2-image
+	media-libs/sdl2-mixer
 	media-libs/sdl2-net
 	media-libs/sdl2-ttf
 	media-libs/speex
