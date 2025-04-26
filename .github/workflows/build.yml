@@ -13,7 +13,7 @@ on:
 jobs:
   build-stage-1:
     name: Build Stage 1
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         shell: bash
@@ -56,7 +56,7 @@ jobs:
   build-stage-3:
     name: Build Stage 3
     needs: build-stage-1
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         shell: bash
@@ -97,7 +97,7 @@ jobs:
   build-stage-4-clang:
     name: Build Stage 4 Clang
     needs: build-stage-3
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         shell: bash
@@ -140,7 +140,7 @@ jobs:
   build-stage-4:
     name: Build Stage 4
     needs: build-stage-4-clang
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         shell: bash
@@ -183,7 +183,7 @@ jobs:
   assemble-squashfs:
     name: Assemble squashfs image
     needs: build-stage-4
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         shell: bash
