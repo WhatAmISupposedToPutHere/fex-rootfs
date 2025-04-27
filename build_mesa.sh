@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
-base_layer=20250228
-repo_ver=20250228
+base_layer=20250425
+repo_ver=20250425
 wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${base_layer}/fex-rootfs.sqfs"
 wget -nv "https://github.com/WhatAmISupposedToPutHere/fex-rootfs/releases/download/${base_layer}/fex-chroot.sqfs"
 mkdir rootfs chroot layer1 layer2 work result
@@ -15,7 +15,7 @@ cp build_mesa_chr.sh result/
 cd result
 echo 'VIDEO_CARDS="asahi"' >>etc/portage/make.conf
 echo 'media-libs/mesa ~amd64' >etc/portage/package.accept_keywords/mesa
-echo 'sys-kernel/asahi-sources-6.11.4_p1' >etc/portage/profile/package.provided/kernel
+echo 'sys-kernel/asahi-sources-6.14.4_p1' >etc/portage/profile/package.provided/kernel
 echo 'media-libs/mesa vulkan' >etc/portage/package.use/mesa
 for dir in dev sys proc; do
     mount --rbind /$dir $dir
