@@ -10,16 +10,10 @@ find etc/ -mindepth 1 -maxdepth 1 \
      -exec mv {} ../chroot/etc/ \;
 mv boot home media mnt opt root run tmp var ../chroot/
 mv usr/{include,libexec,local,sbin,src,x86_64-pc-linux-gnu} ../chroot/usr/
-mv usr/lib/mingw64-toolchain ../chroot/usr/lib/
 mkdir -p ../chroot/usr/lib/locale
 mv usr/lib/locale/locale-archive ../chroot/usr/lib/locale/
 find usr/bin -mindepth 1 -maxdepth 1 \
-     \! -name 'wine*' -a \
      \! -name 'mango*' -a \
-     \! -name 'notepad*' -a \
-     \! -name 'msi*' -a \
-     \! -name 'regedit*' -a \
-     \! -name 'regsvr32*' -a \
      \! -name '*vulkan*' -a \
      \! -name '*vk*' -a \
      \! -name ulimit -a \
@@ -38,7 +32,6 @@ find usr/bin -mindepth 1 -maxdepth 1 \
      \! -name arch -a \
      -exec mv {} ../chroot/usr/bin/ \;
 find usr/share -mindepth 1 -maxdepth 1 \
-     \! -name 'wine*' -a \
      \! -name drirc.d -a \
      \! -name vulkan \
      -exec mv {} ../chroot/usr/share/ \;

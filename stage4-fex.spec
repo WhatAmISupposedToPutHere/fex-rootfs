@@ -10,7 +10,6 @@ portage_confdir: /var/tmp/catalyst/config/stages
 portage_prefix: stage4f
 binrepo_path: amd64/binpackages/23.0/x86-64
 stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+:2 x11-libs/gtk+:3
-	app-emulation/wine-vanilla
 	dev-libs/nspr
 	dev-libs/nss
 	dev-libs/opencl-icd-loader
@@ -20,6 +19,7 @@ stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+
 	dev-util/vulkan-tools
 	media-libs/glew
 	media-libs/glu
+	media-libs/harfbuzz
 	media-libs/libpulse
 	media-libs/libsdl
 	media-libs/libsdl2

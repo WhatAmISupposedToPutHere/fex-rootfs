@@ -1,1 +1,1 @@
-dev-util/intel_clc amd64 ~amd64
+dev-util/mesa_clc ~amd64 amd64
