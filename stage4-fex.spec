@@ -19,7 +19,7 @@ stage4/packages: --with-bdeps=y --deep sys-fs/fuse:0 sys-fs/fuse:3 x11-libs/gtk+
 	dev-util/vulkan-tools
 	media-libs/glew
 	media-libs/glu
-	media-libs/harfbuzz
+	media-libs/freetype
 	media-libs/libpulse
 	media-libs/libsdl
 	media-libs/libsdl2
