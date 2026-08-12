@@ -3,6 +3,7 @@ set -euo pipefail
 mkdir -p rootfs chroot/{etc,dev,proc,sys,usr/{bin,lib,share}}
 cd rootfs
 tar xf ../stage4-amd64-desktop-systemd.tar
+cp ../graphics_provider.json .
 rm -r sys dev proc
 find etc/ -mindepth 1 -maxdepth 1 \
      \! -name eselect -a \
